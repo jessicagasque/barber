@@ -3,8 +3,30 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 export default function BarberShopScreen() {
+  // Adicionamos os estados para o login e senha
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false); // Controle de login
   const [text, setText] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+
+  // Função para verificar o login
+  const handleLogin = () => {
+    if (username === 'admin' && password === '12345') {
+      setIsLoggedIn(true);
+      Alert.alert('Login', 'Login realizado com sucesso!');
+    } else {
+      Alert.alert('Erro', 'Usuário ou senha incorretos.');
+    }
+  };
+
+  // Função de logout
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    setPassword('');
+    Alert.alert('Logout', 'Você saiu com sucesso.');
+  };
 
   const submitContactForm = async () => {
     if (!text.trim()) {
@@ -37,46 +59,93 @@ export default function BarberShopScreen() {
     }
   };
 
+  // Verificar se o usuário está logado
+  if (!isLoggedIn) {
+    // Exibe a tela de login se o usuário não estiver logado
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Usuário"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button title="Entrar" onPress={handleLogin} />
+      </View>
+    );
+  }
+
+  // Caso esteja logado, exibe a tela normal da Barber Shop
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Barber Shop</Text>
-        
+
         <View style={styles.headerImageContainer}>
           <Image
             style={styles.headerImage}
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJEJsjt11FtJ811LTvmhayhHD5vVLyMws7yQ&s' }} 
+            source={{ uri: 'https://barbeariajohnsix.com.br/wp-content/uploads/2020/01/Banner_equip_3.jpg' }} 
           />
         </View>
 
         <Text style={styles.subtitle}>Sobre Nós</Text>
         <Text style={styles.paragraph}>
-          Bem-vindo à BarberShop! Oferecemos um ambiente sofisticado e confortável para todos os nossos clientes. 
-          Nossos barbeiros são altamente qualificados e estão prontos para oferecer o melhor serviço de corte 
-          de cabelo e barba da cidade.
+        <div>
+    <h1>Bem-vindo à BarberShop!</h1>
+    
+    <p>Descubra um refúgio de estilo e cuidado, onde a tradição se encontra com a modernidade. Na BarberShop, não oferecemos apenas cortes de cabelo e serviços de barba; proporcionamos uma experiência única e inesquecível.</p>
+    
+    <h4>Ambiente Sofisticado e Confortável</h4>
+    <p>N nosso espaço foi projetado para que você se sinta à vontade. Desde o momento em que você entra, é envolvido por uma atmosfera acolhedora, com uma decoração elegante que reflete o nosso compromisso com a qualidade. Aqui, cada detalhe foi pensado para oferecer conforto e um toque de classe.</p>
+    
+    <h4>Barbeiros Altamente Qualificados</h4>
+    <p>Nossos barbeiros não são apenas habilidosos, mas verdadeiros artistas do cabelo e da barba. Com anos de experiência e formação contínua nas últimas tendências e técnicas, eles estão prontos para transformar seu visual, sempre respeitando seu estilo pessoal. Quer você esteja buscando um corte clássico ou um estilo mais contemporâneo, temos a expertise para atender às suas expectativas.</p>
+    
+    <h4>Mais do que Cortes, uma Experiência</h4>
+    <p>Na BarberShop, entendemos que cada visita é uma oportunidade para cuidar de você. Além dos nossos serviços de corte, oferecemos tratamentos especiais que revitalizam e mantêm seus cabelos e barba em perfeito estado. Aproveite um momento de relaxamento enquanto se prepara para conquistar o mundo.</p>
+    
+    <h4>Compromisso com a Satisfação do Cliente</h4>
+    <p>Sua satisfação é nossa prioridade. Estamos sempre abertos ao feedback e prontos para ajustar nossos serviços para que você saia completamente satisfeito. Afinal, cada cliente que atendemos é parte da nossa família BarberShop.</p>
+    
+    <h4>Agende sua Visita Hoje Mesmo!</h4>
+    <p>Venha viver a experiência BarberShop. Agende sua visita e descubra o que significa ser verdadeiramente bem cuidado. Estamos ansiosos para recebê-lo e ajudá-lo a alcançar o visual que você sempre desejou!</p>
+</div>
+
         </Text>
 
         <Text style={styles.subtitle}>Serviços</Text>
+        
         <View style={styles.serviceContainer}>
-          <Text style={styles.serviceTitle}>Corte de Cabelo</Text>
+          <Link href={"/reservar"} style={styles.serviceTitle}><h2>Corte de Cabelo</h2></Link>
           <Text style={styles.serviceDescription}>Oferecemos cortes de cabelo modernos e clássicos, adaptados ao seu estilo pessoal.</Text>
-          <Text style={styles.serviceTitle}>Barba e Bigode</Text>
+          <Link href={"/reservar"} style={styles.serviceTitle}><h2>Barba e Bigode</h2></Link>
           <Text style={styles.serviceDescription}>Ajustes e aparos de barba e bigode com os melhores produtos do mercado.</Text>
-          <Text style={styles.serviceTitle}>Tratamentos Capilares</Text>
+          <Link href={"/reservar"} style={styles.serviceTitle}><h2>Tratamentos Capilares</h2></Link>
           <Text style={styles.serviceDescription}>Tratamentos para fortalecer e cuidar dos seus cabelos.</Text>
+
+
+          
         </View>
+
+        <Link href={"/sobre"} style={styles.serviceTitle}>Consulte Nossos Valores</Link>
+
 
         <Text style={styles.subtitle}>Galeria</Text>
         <ScrollView horizontal style={styles.galleryContainer}>
           <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbYPGd4KPivWGjBKnBvncWmO_HKTR8NAVrzw&s' }} /> 
           <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcC7gMs1GE72-lF-ubZg4j5Xe0RRFIixGWg&s' }} />
-          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfEt42aIxeimnfSIXCDYZayzQcbH5nKYvqg&s' }} />
-          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbYPGd4KPivWGjBKnBvncWmO_HKTR8NAVrzw&s' }} /> 
           <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcC7gMs1GE72-lF-ubZg4j5Xe0RRFIixGWg&s' }} />
-          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfEt42aIxeimnfSIXCDYZayzQcbH5nKYvqg&s' }} />
-          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbYPGd4KPivWGjBKnBvncWmO_HKTR8NAVrzw&s' }} /> 
           <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcC7gMs1GE72-lF-ubZg4j5Xe0RRFIixGWg&s' }} />
-          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfEt42aIxeimnfSIXCDYZayzQcbH5nKYvqg&s' }} />
+          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcC7gMs1GE72-lF-ubZg4j5Xe0RRFIixGWg&s' }} />
+          <Image style={styles.galleryImage} source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcC7gMs1GE72-lF-ubZg4j5Xe0RRFIixGWg&s' }} />
         </ScrollView>
 
         <Text style={styles.subtitle}>Contato</Text>
@@ -90,7 +159,7 @@ export default function BarberShopScreen() {
         <Button
           title={loading ? 'Enviando...' : 'Enviar Mensagem'}
           onPress={submitContactForm}
-          color="#6c757d"
+          color="#495057"
           disabled={loading}
         />
 
@@ -99,7 +168,10 @@ export default function BarberShopScreen() {
           <Text style={styles.infoText}>Telefone: (11) 1234-5678</Text>
           <Text style={styles.infoText}>Email: contato@barbershop.com</Text>
         </View>
-        
+
+        <Button title="Sair" onPress={handleLogout} 
+        color="#495057"/>
+
         <Link href={"/reservar"} style={styles.link}>Agende seu horário</Link>
       </ScrollView>
     </View>
@@ -111,6 +183,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fa',
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   scrollContainer: {
     alignItems: 'center',
@@ -124,13 +198,15 @@ const styles = StyleSheet.create({
   },
   headerImageContainer: {
     width: '100%',
-    height: 200,
+    height: undefined, 
+    aspectRatio: 16 / 9, 
     marginBottom: 20,
   },
   headerImage: {
     width: '100%',
     height: '100%',
     borderRadius: 10,
+    resizeMode: 'cover', 
   },
   subtitle: {
     fontSize: 24,
@@ -152,12 +228,12 @@ const styles = StyleSheet.create({
   serviceTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#007bff',
+    color: '#6c757d', // Cor cinza
     marginVertical: 5,
   },
   serviceDescription: {
     fontSize: 16,
-    color: '#6c757d',
+    color: '#495057', // Um cinza mais escuro
     marginBottom: 15,
   },
   galleryContainer: {
@@ -171,7 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   input: {
-    height: 100,
+    height: 40,
     borderColor: '#ced4da',
     borderWidth: 1,
     borderRadius: 6,
@@ -180,7 +256,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   infoBox: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#6c757d', // Um cinza suave
     padding: 20,
     borderRadius: 8,
     marginVertical: 20,
@@ -192,9 +268,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   link: {
-    color: '#007bff',
+    color: '#495057', // Cor cinza
     fontSize: 16,
     textAlign: 'center',
     marginVertical: 10,
   },
 });
+
