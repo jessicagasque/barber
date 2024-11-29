@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function BarberShopScreen() {
   // Adicionamos os estados para o login e senha
@@ -96,8 +97,8 @@ export default function BarberShopScreen() {
           />
         </View>
 
-        <Text style={styles.subtitle}>Sobre Nós</Text>
-        <Text style={styles.paragraph}>
+      <Text style={styles.subtitle}>Sobre Nós</Text>
+      <Text style={styles.paragraph}>
         <div>
     <h1>Bem-vindo à BarberShop!</h1>
     
@@ -135,7 +136,7 @@ export default function BarberShopScreen() {
           
         </View>
 
-        <Link href={"/sobre"} style={styles.serviceTitle}>Consulte Nossos Valores</Link>
+        <Link href={"/sobre"} style={styles.serviceTitle }><h1>Consulte Nossos Valores</h1></Link>
 
 
         <Text style={styles.subtitle}>Galeria</Text>
